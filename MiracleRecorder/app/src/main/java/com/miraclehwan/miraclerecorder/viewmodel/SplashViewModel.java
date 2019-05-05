@@ -22,11 +22,11 @@ public class SplashViewModel extends ViewModel {
         mPermission = new MHPermission();
     }
 
-    public boolean hasPermission(Activity activity){
+    public boolean hasPermission(Activity activity) {
         return mPermission.hasPermission(activity, mPermissionArray);
     }
 
-    public void requestPermission(Activity activity, int requestCode){
+    public void requestPermission(Activity activity, int requestCode) {
         mPermission.requestPermission(activity, requestCode, mPermissionArray);
     }
 

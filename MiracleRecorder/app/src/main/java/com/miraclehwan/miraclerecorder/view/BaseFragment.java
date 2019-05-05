@@ -12,9 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public abstract class BaseFragment<B extends ViewDataBinding, T extends ViewModel> extends Fragment{
+public abstract class BaseFragment<B extends ViewDataBinding, T extends ViewModel> extends Fragment {
 
     protected abstract int getLayout();
+
     protected abstract Class<T> setViewModelClass();
 
     protected B mBinding;
@@ -23,6 +24,7 @@ public abstract class BaseFragment<B extends ViewDataBinding, T extends ViewMode
     public B getBinding() {
         return mBinding;
     }
+
     public T getViewModel() {
         return mViewModel;
     }
@@ -31,7 +33,7 @@ public abstract class BaseFragment<B extends ViewDataBinding, T extends ViewMode
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, getLayout(), container, false);
-        mViewModel = ViewModelProviders.of(this).get(setViewModelClass());
+        mViewModel = ViewModelProviders.of(getActivity()).get(setViewModelClass());
         return mBinding.getRoot();
     }
 }

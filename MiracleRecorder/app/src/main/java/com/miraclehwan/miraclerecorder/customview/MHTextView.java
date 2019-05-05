@@ -23,16 +23,20 @@ public class MHTextView extends TextView {
         super(context, attrs, defStyleAttr);
     }
 
-    public void setTextWithFadeAnim(String text){
+    public void setTextWithFadeAnim(String text) {
         Animation fadeIn = new AlphaAnimation(0.0f, 1.0f);
         fadeIn.setDuration(1000);
         Animation fadeOut = new AlphaAnimation(1.0f, 0.0f);
         fadeOut.setDuration(1000);
         fadeOut.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart(Animation animation) {}
+            public void onAnimationStart(Animation animation) {
+            }
+
             @Override
-            public void onAnimationRepeat(Animation animation) {}
+            public void onAnimationRepeat(Animation animation) {
+            }
+
             @Override
             public void onAnimationEnd(Animation animation) {
                 setText(text);

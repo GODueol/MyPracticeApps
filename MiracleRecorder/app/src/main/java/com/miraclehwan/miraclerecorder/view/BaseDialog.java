@@ -5,18 +5,17 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.WindowManager;
 
 import com.miraclehwan.miraclerecorder.MyApplication;
-import com.miraclehwan.miraclerecorder.R;
 
 public abstract class BaseDialog<B extends ViewDataBinding> extends Dialog {
 
     protected abstract int getLayout();
 
     protected B mBinding;
+
     public B getBinding() {
         return mBinding;
     }
@@ -28,7 +27,7 @@ public abstract class BaseDialog<B extends ViewDataBinding> extends Dialog {
         setDialog();
     }
 
-    protected void setDialog(){
+    protected void setDialog() {
         WindowManager.LayoutParams lpWindow = getWindow().getAttributes();
 
         lpWindow.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;

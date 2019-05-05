@@ -27,7 +27,7 @@ public class MHTransition {
     private IEndTransition mIEndTransition;
 
     public MHTransition(int type) {
-        switch (type){
+        switch (type) {
             case AUTO:
                 mTransition = new AutoTransition();
                 mTransition.setInterpolator(new AnticipateOvershootInterpolator(1.0f));
@@ -43,40 +43,40 @@ public class MHTransition {
         }
     }
 
-    public MHTransition setDuration(long duration){
-        if (mTransition != null){
+    public MHTransition setDuration(long duration) {
+        if (mTransition != null) {
             mTransition.setDuration(duration);
         }
         return this;
     }
 
-    public MHTransition setStartCallback(IStartTransition IStartTransition){
-        if (mTransition != null){
+    public MHTransition setStartCallback(IStartTransition IStartTransition) {
+        if (mTransition != null) {
             mIStartTransition = IStartTransition;
         }
         return this;
     }
 
-    public MHTransition setEndCallback(IEndTransition IEndTransition){
-        if (mTransition != null){
+    public MHTransition setEndCallback(IEndTransition IEndTransition) {
+        if (mTransition != null) {
             mIEndTransition = IEndTransition;
         }
         return this;
     }
 
-    public Transition getTransition(){
-        if (mTransition != null){
+    public Transition getTransition() {
+        if (mTransition != null) {
             mTransition.addListener(new Transition.TransitionListener() {
                 @Override
                 public void onTransitionStart(Transition transition) {
-                    if (mIStartTransition != null){
+                    if (mIStartTransition != null) {
                         mIStartTransition.onCallback();
                     }
                 }
 
                 @Override
                 public void onTransitionEnd(Transition transition) {
-                    if (mIEndTransition != null){
+                    if (mIEndTransition != null) {
                         mIEndTransition.onCallback();
                     }
                 }

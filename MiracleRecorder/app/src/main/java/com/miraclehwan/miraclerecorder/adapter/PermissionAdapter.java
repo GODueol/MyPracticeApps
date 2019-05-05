@@ -14,11 +14,11 @@ import java.util.List;
 
 public class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.PermissionViewHolder> {
 
-    private Context context;
+    private Context mContext;
     private List<Permission> mPermissionList;
 
-    public PermissionAdapter(Context context, List<Permission> mPermissionList) {
-        this.context = context;
+    public PermissionAdapter(Context mContext, List<Permission> mPermissionList) {
+        this.mContext = mContext;
         this.mPermissionList = mPermissionList;
     }
 
@@ -38,7 +38,7 @@ public class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Pe
         return mPermissionList.size();
     }
 
-    public class PermissionViewHolder extends RecyclerView.ViewHolder{
+    public class PermissionViewHolder extends RecyclerView.ViewHolder {
 
         public ItemPermissionBinding mBinding;
 
@@ -47,8 +47,8 @@ public class PermissionAdapter extends RecyclerView.Adapter<PermissionAdapter.Pe
             mBinding = binding;
         }
 
-        public void onBind(Permission permission){
-            Glide.with(context)
+        public void onBind(Permission permission) {
+            Glide.with(mContext)
                     .load(permission.getIcon())
                     .into(mBinding.ivIcon);
             mBinding.tvTitle.setText(permission.getTitle());

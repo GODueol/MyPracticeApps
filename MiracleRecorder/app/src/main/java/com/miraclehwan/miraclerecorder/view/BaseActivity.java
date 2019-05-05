@@ -14,6 +14,7 @@ import com.miraclehwan.miraclerecorder.R;
 public abstract class BaseActivity<B extends ViewDataBinding, T extends ViewModel> extends AppCompatActivity {
 
     protected abstract int getLayout();
+
     protected abstract Class<T> getViewModelClass();
 
     protected B mBinding;
@@ -22,6 +23,7 @@ public abstract class BaseActivity<B extends ViewDataBinding, T extends ViewMode
     public B getBinding() {
         return mBinding;
     }
+
     public T getViewModel() {
         return mViewModel;
     }
@@ -38,11 +40,11 @@ public abstract class BaseActivity<B extends ViewDataBinding, T extends ViewMode
         super.onDestroy();
     }
 
-    protected void showToast(String message){
+    protected void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    protected void finishWithFade(){
+    protected void finishWithFade() {
         finish();
         overridePendingTransition(0, R.anim.fade_out);
     }

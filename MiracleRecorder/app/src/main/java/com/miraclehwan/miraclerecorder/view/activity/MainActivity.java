@@ -1,9 +1,7 @@
 package com.miraclehwan.miraclerecorder.view.activity;
 
-import android.databinding.DataBindingUtil;
-import android.support.design.widget.TabLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 
 import com.miraclehwan.miraclerecorder.R;
 import com.miraclehwan.miraclerecorder.adapter.TabPagerAdapter;
@@ -42,10 +40,14 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
             public void onTabSelected(TabLayout.Tab tab) {
                 getBinding().vp.setCurrentItem(tab.getPosition());
             }
+
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {}
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
         });
     }
 }

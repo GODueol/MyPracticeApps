@@ -8,6 +8,7 @@ import android.view.WindowManager;
 public class MyApplication extends Application {
 
     private static MyApplication sInstance;
+
     public static MyApplication getInstance() {
         return sInstance;
     }
@@ -15,13 +16,12 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        if (sInstance == null){
+        if (sInstance == null) {
             sInstance = this;
         }
     }
 
-    public DisplayMetrics getDisplayMetrics(){
+    public DisplayMetrics getDisplayMetrics() {
         DisplayMetrics metrics = new DisplayMetrics();
         WindowManager wm = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
         wm.getDefaultDisplay().getMetrics(metrics);

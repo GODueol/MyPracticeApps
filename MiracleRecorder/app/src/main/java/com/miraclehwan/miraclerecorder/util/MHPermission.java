@@ -10,28 +10,26 @@ import java.util.List;
 
 public class MHPermission {
 
-    public boolean hasPermission(Activity activity, String[] permissionArray){
+    public boolean hasPermission(Activity activity, String[] permissionArray) {
         for (int i = 0; i < permissionArray.length; i++) {
-            if (ContextCompat.checkSelfPermission(activity, permissionArray[i]) != PackageManager.PERMISSION_GRANTED){
+            if (ContextCompat.checkSelfPermission(activity, permissionArray[i]) != PackageManager.PERMISSION_GRANTED) {
                 return false;
             }
         }
         return true;
     }
 
-    public void requestPermission(Activity activity, int requestCode, String[] permissionArray){
+    public void requestPermission(Activity activity, int requestCode, String[] permissionArray) {
         List<String> permissions = new ArrayList<>();
         for (int i = 0; i < permissionArray.length; i++) {
-            if (ContextCompat.checkSelfPermission(activity, permissionArray[i]) != PackageManager.PERMISSION_GRANTED){
+            if (ContextCompat.checkSelfPermission(activity, permissionArray[i]) != PackageManager.PERMISSION_GRANTED) {
                 permissions.add(permissionArray[i]);
             }
         }
-        if (permissions.size() > 0){
+        if (permissions.size() > 0) {
             String[] needPermissionArray = new String[permissions.size()];
             needPermissionArray = permissions.toArray(needPermissionArray);
-            ActivityCompat.requestPermissions(activity,
-                    needPermissionArray,
-                    requestCode);
+            ActivityCompat.requestPermissions(activity, needPermissionArray, requestCode);
         }
     }
 }

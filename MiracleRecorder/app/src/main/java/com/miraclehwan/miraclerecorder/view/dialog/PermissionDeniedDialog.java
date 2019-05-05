@@ -30,23 +30,23 @@ public class PermissionDeniedDialog extends BaseDialog<DialogPermissionDeniedBin
     public PermissionDeniedDialog(@NonNull Context context) {
         super(context);
         getBinding().btnY.setOnClickListener(v -> {
-            if (iClickOk != null){
+            if (iClickOk != null) {
                 iClickOk.onCallback();
             }
         });
         getBinding().btnN.setOnClickListener(v -> {
-            if (iClickNo != null){
+            if (iClickNo != null) {
                 iClickNo.onCallback();
             }
         });
     }
 
-    public PermissionDeniedDialog setClickOkCallback(IClickOk iClickOk){
+    public PermissionDeniedDialog setClickOkCallback(IClickOk iClickOk) {
         this.iClickOk = iClickOk;
         return this;
     }
 
-    public PermissionDeniedDialog setClickNoCallback(IClickNo iClickNo){
+    public PermissionDeniedDialog setClickNoCallback(IClickNo iClickNo) {
         this.iClickNo = iClickNo;
         return this;
     }
