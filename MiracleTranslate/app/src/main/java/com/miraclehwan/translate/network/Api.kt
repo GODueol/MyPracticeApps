@@ -18,40 +18,6 @@ import java.util.concurrent.TimeUnit
 
 interface Api {
 
-    companion object {
-        fun create(): Api {
-            val okHttpClient by lazy {
-                OkHttpClient.Builder().apply {
-                    addInterceptor { chain ->
-                        chain.proceed(
-                            chain.request().newBuilder().apply {
-                                addHeader("X-Naver-Client-Id", NAVER_CLIENT_ID)
-                                addHeader("X-Naver-Client-Secret", NAVER_CLIENT_SECRECT)
-                            }.build()
-                        )
-                    }
-                    if (IS_DEBUG){
-                        addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
-                    }
-                    connectTimeout(4, TimeUnit.SECONDS)
-                    readTimeout(4, TimeUnit.SECONDS)
-                    writeTimeout(4, TimeUnit.SECONDS)
-                }.build()
-            }
-
-            val retrofit by lazy {
-                Retrofit.Builder().apply {
-                    client(okHttpClient)
-                    addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    addConverterFactory(GsonConverterFactory.create())
-                    baseUrl(BASE_URL)
-                }.build()
-            }
-
-            return retrofit.create(Api::class.java);
-        }
-    }
-
     @POST("/v1/language/translate")
     @FormUrlEncoded
     fun translate(
@@ -59,4 +25,67 @@ interface Api {
         @Field("target") target: String,
         @Field("text") text: String
     ): Single<TranslateResponse>
+
+    companion object {
+        val RetrofitClient: Api by lazy {
+            val okHttpClient = OkHttpClient.Builder().apply {
+                addInterceptor { chain ->
+                    chain.proceed(
+                        chain.request().newBuilder().apply {
+                            addHeader("X-Naver-Client-Id", NAVER_CLIENT_ID)
+                            addHeader("X-Naver-Client-Secret", NAVER_CLIENT_SECRECT)
+                        }.build()
+                    )
+                }
+                if (IS_DEBUG) {
+                    addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
+                }
+                connectTimeout(4, TimeUnit.SECONDS)
+                readTimeout(4, TimeUnit.SECONDS)
+                writeTimeout(4, TimeUnit.SECONDS)
+            }.build()
+
+            val retrofit = Retrofit.Builder().apply {
+                client(okHttpClient)
+                addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                addConverterFactory(GsonConverterFactory.create())
+                baseUrl(BASE_URL)
+            }.build()
+
+            retrofit.create(Api::class.java)
+        }
+
+//todo::이전 RetorfitClient 코드 :: 20190513
+//        fun create(): Api {
+//            val okHttpClient by lazy {
+//                OkHttpClient.Builder().apply {
+//                    addInterceptor { chain ->
+//                        chain.proceed(
+//                            chain.request().newBuilder().apply {
+//                                addHeader("X-Naver-Client-Id", NAVER_CLIENT_ID)
+//                                addHeader("X-Naver-Client-Secret", NAVER_CLIENT_SECRECT)
+//                            }.build()
+//                        )
+//                    }
+//                    if (IS_DEBUG) {
+//                        addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
+//                    }
+//                    connectTimeout(4, TimeUnit.SECONDS)
+//                    readTimeout(4, TimeUnit.SECONDS)
+//                    writeTimeout(4, TimeUnit.SECONDS)
+//                }.build()
+//            }
+//
+//            val retrofit by lazy {
+//                Retrofit.Builder().apply {
+//                    client(okHttpClient)
+//                    addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+//                    addConverterFactory(GsonConverterFactory.create())
+//                    baseUrl(BASE_URL)
+//                }.build()
+//            }
+//
+//            return retrofit.create(Api::class.java)
+//        }
+    }
 }
