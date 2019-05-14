@@ -54,6 +54,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private fun checkSourceTextAndTranslate() {
         if (et_source_content.toString().length == 0) {
+            tv_target_content.text = ""
             return
         }
 
@@ -67,7 +68,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             removeCallbacksAndMessages(null)
             postDelayed(
                 { mViewModel.doTranslate(sourceLanguage, targetLanguage, et_source_content.text.toString()) },
-                2000
+                1000
             )
         }
     }
