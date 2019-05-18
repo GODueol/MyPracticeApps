@@ -1,4 +1,4 @@
-package com.miraclehwan.camerax
+package com.miraclehwan.camerax.viewmodel
 
 import android.Manifest
 import androidx.lifecycle.ViewModel

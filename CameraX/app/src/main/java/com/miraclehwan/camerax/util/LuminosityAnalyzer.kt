@@ -1,4 +1,4 @@
-package com.miraclehwan.camerax
+package com.miraclehwan.camerax.util
 
 import android.util.Log
 import androidx.camera.core.ImageAnalysis

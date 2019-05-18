@@ -6,26 +6,37 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".MainActivity">
+            tools:context=".view.MainActivity">
 
         <TextureView
                 android:id="@+id/texture_view"
-                android:layout_width="640px"
-                android:layout_height="640px"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/iv_capture"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="20dp"/>
 
-        <Button
-                android:id="@+id/btn_capture"
-                android:text="캡쳐"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+        <ImageView
+                android:id="@+id/iv_capture"
+                android:src="@drawable/ic_camera_black_24dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/texture_view"/>
+        android:layout_marginBottom="20dp"/>
+
+        <ImageView
+                android:id="@+id/iv_change_carmera"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_change_black_24dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/iv_capture"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_capture"
+                app:layout_constraintRight_toLeftOf="@+id/iv_capture"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
