@@ -1,12 +1,11 @@
 package com.miraclehwan.translate.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.miraclehwan.translate.network.Api.Companion.RetrofitClient
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class TranslateViewModel : ViewModel() {
+class TranslateViewModel : BaseViewModel() {
 
     val mTranslateResultLiveData: MutableLiveData<String> by lazy { MutableLiveData<String>() }
 
@@ -19,7 +18,7 @@ class TranslateViewModel : ViewModel() {
     }
 
     private fun translateCall(source: String, target: String, content: String) {
-        RetrofitClient
+        addDisposable(RetrofitClient
             .translate(source, target, content)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -28,11 +27,11 @@ class TranslateViewModel : ViewModel() {
                 if (resultString != null) {
                     mTranslateResultLiveData.value = resultString
                 }
-            }, {})
+            }, {}))
     }
 
     private fun middelTranslateCall(source: String, target: String, content: String) {
-        RetrofitClient
+        addDisposable(RetrofitClient
             .translate(source, "ko", content)
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
@@ -41,7 +40,7 @@ class TranslateViewModel : ViewModel() {
                 if (resultString != null) {
                     translateCall("ko", target, resultString)
                 }
-            }, {})
+            }, {}))
     }
 
     private fun getLanguageCode(selectedLanguage: String): String {
