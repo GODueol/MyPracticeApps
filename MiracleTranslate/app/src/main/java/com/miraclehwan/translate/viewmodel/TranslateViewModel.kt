@@ -23,10 +23,7 @@ class TranslateViewModel : BaseViewModel() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                val resultString = it?.message?.result?.translatedText ?: null
-                if (resultString != null) {
-                    mTranslateResultLiveData.value = resultString
-                }
+                it?.message?.result?.translatedText?.let { mTranslateResultLiveData.value = it }
             }, {}))
     }
 
@@ -36,10 +33,7 @@ class TranslateViewModel : BaseViewModel() {
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .subscribe({
-                val resultString = it?.message?.result?.translatedText ?: null
-                if (resultString != null) {
-                    translateCall("ko", target, resultString)
-                }
+                it?.message?.result?.translatedText?.let { mTranslateResultLiveData.value = it }
             }, {}))
     }
 
