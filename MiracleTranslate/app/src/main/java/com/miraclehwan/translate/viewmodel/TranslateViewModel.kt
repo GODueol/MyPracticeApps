@@ -1,13 +1,14 @@
 package com.miraclehwan.translate.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import com.miraclehwan.translate.network.Api.Companion.RetrofitClient
+import com.miraclehwan.translate.model.TranslateRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class TranslateViewModel : BaseViewModel() {
 
     val mTranslateResultLiveData: MutableLiveData<String> by lazy { MutableLiveData<String>() }
+    val mTranslateRepository = TranslateRepository()
 
     fun doTranslate(source: String, target: String, content: String) {
         if (source.equals("한국어") || target.equals("한국어")) {
@@ -18,23 +19,25 @@ class TranslateViewModel : BaseViewModel() {
     }
 
     private fun translateCall(source: String, target: String, content: String) {
-        addDisposable(RetrofitClient
-            .translate(source, target, content)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                it?.message?.result?.translatedText?.let { mTranslateResultLiveData.value = it }
-            }, {}))
+        addDisposable(
+            mTranslateRepository.getTranslateResult(source, target, content)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ translateResult ->
+                    mTranslateResultLiveData.value = translateResult
+                }, {})
+        )
     }
 
     private fun middelTranslateCall(source: String, target: String, content: String) {
-        addDisposable(RetrofitClient
-            .translate(source, "ko", content)
-            .subscribeOn(Schedulers.io())
-            .observeOn(Schedulers.io())
-            .subscribe({
-                it?.message?.result?.translatedText?.let { mTranslateResultLiveData.value = it }
-            }, {}))
+        addDisposable(
+            mTranslateRepository.getTranslateResult(source, "ko", content)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe({ translateResult ->
+                    translateCall("ko", target, translateResult)
+                }, {})
+        )
     }
 
     private fun getLanguageCode(selectedLanguage: String): String {
