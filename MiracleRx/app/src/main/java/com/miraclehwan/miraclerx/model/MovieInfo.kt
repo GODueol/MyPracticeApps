@@ -1,3 +1,7 @@
 package com.miraclehwan.miraclerx.model
 
-data class MovieInfo(val title: String)
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+data class MovieInfo(val title: String, val imageUrl: String) : Parcelable

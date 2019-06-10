@@ -15,6 +15,8 @@ abstract class BaseActivity<VDB : ViewDataBinding, VM : ViewModel> : AppCompatAc
 
     abstract fun getViewModelClass(): Class<VM>
 
+    abstract fun setViewModelToDataBinding()
+
     val binding by lazy {
         DataBindingUtil.setContentView(this, getLayoutRes()) as VDB
     }
@@ -25,7 +27,6 @@ abstract class BaseActivity<VDB : ViewDataBinding, VM : ViewModel> : AppCompatAc
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding
-        viewModel
+        setViewModelToDataBinding()
     }
 }

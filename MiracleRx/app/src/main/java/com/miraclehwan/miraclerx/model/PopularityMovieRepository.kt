@@ -15,5 +15,5 @@ fun getPopularityMovie(): Observable<MovieInfo> {
         .filter { response -> response.results.size > 0 }
         .map { response -> response.results }
         .flatMap { resultList -> fromIterable(resultList) }
-        .concatMap { result -> Observable.just(MovieInfo(result.title)).delay(1, TimeUnit.SECONDS) }
+        .concatMap { result -> Observable.just(MovieInfo(result.title, result.backdropPath)).delay(1, TimeUnit.SECONDS) }
 }

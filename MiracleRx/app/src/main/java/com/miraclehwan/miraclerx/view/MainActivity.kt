@@ -15,8 +15,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         return MainViewModel::class.java
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun setViewModelToDataBinding() {
         binding.vm = viewModel
     }
 }
