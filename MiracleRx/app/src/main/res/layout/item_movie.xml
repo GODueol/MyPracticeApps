@@ -4,7 +4,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <variable name="movie" type="com.miraclehwan.miraclerx.model.MovieInfo"/>
+        <variable name="movie" type="com.miraclehwan.miraclerx.model.Movie"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,6 +13,7 @@
 
         <ImageView
                 android:id="@+id/iv_background"
+                android:transitionName="poster"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:setImageUsingGlide="@{movie.imageUrl}"
@@ -23,6 +24,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
         <View
+                android:id="@+id/v_gray"
+                android:transitionName="gray"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="#80000000"
@@ -33,6 +36,7 @@
 
         <TextView
                 android:id="@+id/tv_title"
+                android:transitionName="title"
                 android:text="@{movie.title}"
                 android:textSize="25dp"
                 android:textColor="#FFFFFF"

@@ -2,6 +2,7 @@ package com.miraclehwan.miraclerx.network
 
 import com.miraclehwan.miraclerx.Constants.BASE_URL
 import com.miraclehwan.miraclerx.Constants.IS_DEBUG
+import com.miraclehwan.miraclerx.network.response.GenreResponse
 import com.miraclehwan.miraclerx.network.response.PopularityMovieResponse
 import io.reactivex.Single
 import okhttp3.OkHttpClient
@@ -20,6 +21,12 @@ interface Api {
         @Query("sort_by") sortBy: String,
         @Query("api_key") authKey: String
     ): Single<PopularityMovieResponse>
+
+    @GET("/3/genre/movie/list?")
+    fun getGenre(
+        @Query("api_key") authKey: String,
+        @Query("language") language: String
+    ): Single<GenreResponse>
 
     companion object {
         val RetrofitClient: Api by lazy {

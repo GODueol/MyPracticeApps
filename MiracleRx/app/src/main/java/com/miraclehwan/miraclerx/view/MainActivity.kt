@@ -1,6 +1,5 @@
 package com.miraclehwan.miraclerx.view
 
-import android.os.Bundle
 import com.miraclehwan.miraclerx.R
 import com.miraclehwan.miraclerx.databinding.ActivityMainBinding
 import com.miraclehwan.miraclerx.viewmodel.MainViewModel

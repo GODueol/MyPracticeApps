@@ -2,12 +2,12 @@ package com.miraclehwan.miraclerx.view
 
 import com.miraclehwan.miraclerx.R
 import com.miraclehwan.miraclerx.databinding.ActivityDetailBinding
-import com.miraclehwan.miraclerx.model.MovieInfo
+import com.miraclehwan.miraclerx.model.Movie
 import com.miraclehwan.miraclerx.viewmodel.DetailViewModel
 
 const val MOVIE_TAG = "movie"
 
-class DetailActivity : BaseActivity<ActivityDetailBinding, DetailViewModel>(){
+class DetailActivity : BaseActivity<ActivityDetailBinding, DetailViewModel>() {
     override fun getLayoutRes(): Int {
         return R.layout.activity_detail
     }
@@ -18,7 +18,7 @@ class DetailActivity : BaseActivity<ActivityDetailBinding, DetailViewModel>(){
 
     override fun setViewModelToDataBinding() {
         binding.vm = viewModel
-        val movie = intent.getParcelableExtra<MovieInfo>(MOVIE_TAG)
+        val movie = intent.getParcelableExtra<Movie>(MOVIE_TAG)
         viewModel.movie.set(movie)
     }
 

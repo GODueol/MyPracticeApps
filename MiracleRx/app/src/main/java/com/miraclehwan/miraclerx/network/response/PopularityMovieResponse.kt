@@ -33,7 +33,7 @@ data class Result(
     @SerializedName("original_title")
     val originalTitle: String,
     @SerializedName("genre_ids")
-    val genreIds: List<Integer>,
+    val genreIds: List<Int>,
     @SerializedName("backdrop_path")
     val backdropPath: String,
     @SerializedName("adult")

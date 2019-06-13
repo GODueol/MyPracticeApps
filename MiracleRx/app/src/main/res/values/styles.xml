@@ -6,6 +6,14 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowBackground">@color/background</item>
+    </style>
+    
+    <style name="MyTagGroup" parent="TagGroup">
+        <item name="atg_borderColor">@color/white</item>
+        <item name="atg_textColor">@color/white</item>
+        <item name="atg_backgroundColor">@color/background</item>
     </style>
 
 </resources>

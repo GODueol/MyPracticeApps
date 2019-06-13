@@ -1,32 +1,28 @@
 package com.miraclehwan.miraclerx.viewmodel
 
-import android.content.Context
-import android.content.Intent
 import android.util.Log
-import android.view.View
-import androidx.databinding.ObservableArrayList
+import androidx.databinding.ObservableField
 import com.miraclehwan.miraclerx.Constants.TAG
-import com.miraclehwan.miraclerx.model.MovieInfo
-import com.miraclehwan.miraclerx.model.getPopularityMovie
-import com.miraclehwan.miraclerx.view.DetailActivity
+import com.miraclehwan.miraclerx.model.Movie
+import com.miraclehwan.miraclerx.model.getMovie
 import io.reactivex.android.schedulers.AndroidSchedulers
 
 
 class MainViewModel : BaseViewModel() {
 
-    val movieList = ObservableArrayList<MovieInfo>()
+    val movie = ObservableField<Movie>()
 
-    init{
+    init {
         getMovieFromServer()
     }
 
     fun getMovieFromServer() {
         addDisposable(
-            getPopularityMovie()
+            getMovie()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ movieInfo ->
                     Log.e(TAG, movieInfo.toString())
-                    movieList.add(movieInfo)
+                    movie.set(movieInfo)
                 }, {
                     Log.e(TAG, "API Fail")
                 })
