@@ -1,19 +1,26 @@
 package com.miraclehwan.miraclegithub
 
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
+import androidx.recyclerview.widget.RecyclerView
+import com.miraclehwan.miraclegithub.adapter.SearchAdapter
+import com.miraclehwan.miraclegithub.network.response.Item
 import com.miraclehwan.miraclegithub.util.Log
 
 object Extensions {
 
     @JvmStatic
     @BindingAdapter("android:text")
-    fun setText(view : TextView, text: CharSequence ){
-        if (view.text.toString() != text.toString()){
+    fun setText(view: TextView, text: CharSequence?) {
+        if(text == null){
+            return;
+        }
+        if (view.text.toString() != text.toString()) {
             Log.e(text.toString())
             view.text = text
         }
@@ -39,5 +46,15 @@ object Extensions {
                 }
             }
         })
+    }
+
+    @JvmStatic
+    @BindingAdapter("setItem")
+    fun setItem(view: RecyclerView, items: List<Item>?) {
+        if (items == null) {
+            return
+        }
+        val adapter = view.adapter as? SearchAdapter ?: SearchAdapter().apply { view.adapter = this }
+        adapter.setItems(items)
     }
 }
