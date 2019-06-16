@@ -9,9 +9,14 @@ import io.reactivex.schedulers.Schedulers
 
 class SearchRepository {
 
+    var totalItemCount = 0
+
     fun getRepository(q: String, page: Int): Single<List<Item>> {
         return Api.RetrofitClient.getRepository(q, SORT, ORDER_BY, page)
             .subscribeOn(Schedulers.io())
-            .map { res -> res.items }
+            .map { res ->
+                totalItemCount = res.totalCount
+                res.items
+            }
     }
 }

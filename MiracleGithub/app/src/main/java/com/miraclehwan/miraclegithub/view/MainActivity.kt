@@ -35,7 +35,10 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
                 Log.e("size log | $totalItemCount / $lastVisibleItem")
 
-                if (!viewModel.loading && totalItemCount!! <= lastVisibleItem!!) {
+                if (!viewModel.loading
+                    && totalItemCount != 0
+                    && totalItemCount < viewModel.searchRepository.totalItemCount
+                    && totalItemCount!! <= lastVisibleItem!!) {
                     viewModel.currentPage++
                     viewModel.pageSubject.onNext(viewModel.currentPage)
                 }
