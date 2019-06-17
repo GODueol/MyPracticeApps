@@ -7,6 +7,8 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
+import androidx.databinding.adapters.ListenerUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.miraclehwan.miraclegithub.adapter.SearchAdapter
 import com.miraclehwan.miraclegithub.network.response.Item
@@ -56,5 +58,43 @@ object Extensions {
         }
         val adapter = view.adapter as? SearchAdapter ?: SearchAdapter().apply { view.adapter = this }
         adapter.setItems(items)
+    }
+
+    @JvmStatic
+    @BindingAdapter("onScrolled")
+    fun onScrolled(view:RecyclerView, onScrolled: OnScrolled){
+        val newValue: RecyclerView.OnScrollListener?
+        if (onScrolled == null) {
+            newValue = null
+        } else {
+            newValue = object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    if (onScrolled == null) {
+                        return
+                    }
+                    val layoutManager = view.layoutManager
+                    val totalItemCount = layoutManager?.itemCount ?: 0
+                    val lastVisibleItem =
+                        layoutManager?.let { (layoutManager as LinearLayoutManager).findLastVisibleItemPosition() + 1 } ?: 0
+
+                    Log.e("size log | $totalItemCount / $lastVisibleItem")
+
+                    if (totalItemCount != 0 && totalItemCount!! <= lastVisibleItem!!){
+                        onScrolled.onScrolled(totalItemCount)
+                    }
+                }
+            }
+        }
+        val oldValue = ListenerUtil.trackListener(view, newValue, R.id.rv)
+        if (oldValue != null) {
+            view.removeOnScrollListener(oldValue)
+        }
+        if (newValue != null) {
+            view.addOnScrollListener(newValue)
+        }
+    }
+
+    interface OnScrolled {
+        fun onScrolled(totalItemCount:Int)
     }
 }

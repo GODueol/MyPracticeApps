@@ -14,11 +14,11 @@ import java.util.concurrent.TimeUnit
 class MainViewModel : BaseViewModel() {
     val input = ObservableField<String>()
     val items = ObservableField<List<Item>>()
+    var isLoading = ObservableField<Boolean>(false)
 
     val searchRepository = SearchRepository()
     var currentPage = 1
     val pageSubject = PublishSubject.create<Int>()
-    var loading = false
 
     val searchPropertyChangedCallback = object : Observable.OnPropertyChangedCallback() {
         override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
@@ -36,7 +36,7 @@ class MainViewModel : BaseViewModel() {
         addDisposable(
             pageSubject
                 .debounce(500, TimeUnit.MILLISECONDS)
-                .doOnNext { loading = true }
+                .doOnNext { isLoading.set(true) }
                 .switchMapSingle { page ->
                     searchRepository.getRepository(input.get()!!, page)
                         .subscribeOn(Schedulers.io())
@@ -47,11 +47,19 @@ class MainViewModel : BaseViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ itemList ->
                     items.set(itemList)
-                    loading = false
+                    isLoading.set(false)
                 }, { e ->
                     Log.e("Fail - ${e}")
                 })
         )
+    }
+
+    fun updateRecyclerView(totalItemCount: Int) {
+        if (!isLoading.get()!! && totalItemCount < searchRepository.totalItemCount) {
+            isLoading.set(true)
+            currentPage++
+            pageSubject.onNext(currentPage)
+        }
     }
 
     override fun onCleared() {

@@ -2,6 +2,7 @@
 <layout>
 
     <data>
+        <import type="android.view.View"/>
         <variable name="vm" type="com.miraclehwan.miraclegithub.viewmodel.MainViewModel"/>
     </data>
 
@@ -28,11 +29,30 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:setItem="@{vm.items}"
+                app:onScrolled="@{(totalItemCount) -> vm.updateRecyclerView(totalItemCount)}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@+id/et_input"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="#80000000"
+                android:gravity="center"
+                android:clickable="true"
+                android:visibility="@{vm.isLoading ? View.VISIBLE : View.GONE}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+            <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

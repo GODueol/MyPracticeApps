@@ -20,29 +20,4 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     override fun setViewModelToDataBinding() {
         binding.vm = viewModel
     }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        binding.rv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-
-                val layoutManager = recyclerView.layoutManager
-                val totalItemCount = layoutManager?.itemCount ?: 0
-                val lastVisibleItem =
-                    layoutManager?.let { (layoutManager as LinearLayoutManager).findLastVisibleItemPosition() + 1 } ?: 0
-
-                Log.e("size log | $totalItemCount / $lastVisibleItem")
-
-                if (!viewModel.loading
-                    && totalItemCount != 0
-                    && totalItemCount < viewModel.searchRepository.totalItemCount
-                    && totalItemCount!! <= lastVisibleItem!!) {
-                    viewModel.currentPage++
-                    viewModel.pageSubject.onNext(viewModel.currentPage)
-                }
-            }
-        })
-    }
 }
