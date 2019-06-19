@@ -1,4 +1,4 @@
-﻿## MiracleRx
+﻿## MiracleGithub
 #### MVVM, RxJava2, DataBinding 연습용 프로젝트
 
 ```
