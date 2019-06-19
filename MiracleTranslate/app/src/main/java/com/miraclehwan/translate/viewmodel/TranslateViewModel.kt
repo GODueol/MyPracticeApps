@@ -1,20 +1,58 @@
 package com.miraclehwan.translate.viewmodel
 
-import androidx.lifecycle.MutableLiveData
-import com.miraclehwan.translate.model.TranslateRepository
+import android.util.Log
+import androidx.databinding.Observable
+import com.miraclehwan.translate.model.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 
 class TranslateViewModel : BaseViewModel() {
 
-    val mTranslateResultLiveData: MutableLiveData<String> by lazy { MutableLiveData<String>() }
-    val mTranslateRepository = TranslateRepository()
+    val translateSubject = PublishSubject.create<Int>()
 
-    fun doTranslate(source: String, target: String, content: String) {
-        if (source.equals("한국어") || target.equals("한국어")) {
-            translateCall(getLanguageCode(source), getLanguageCode(target), content)
+    val mTranslateRepository = TranslateRepository()
+    val mTranslateContent = TranslateContent()
+
+    val translateCallback = object : Observable.OnPropertyChangedCallback(){
+        override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+            if (mTranslateContent.sourceText.get()!!.isNotEmpty()){
+                doTranslate()
+            }
+        }
+    }
+
+    init{
+        mTranslateContent.sourceText.addOnPropertyChangedCallback(translateCallback)
+        mTranslateContent.target.addOnPropertyChangedCallback(translateCallback)
+
+        Thread{
+            while (true){
+                Log.e("daehwan", "로그 / ${mTranslateContent.source.get()} -> ${mTranslateContent.target.get()} / ${mTranslateContent.sourceText.get()} / ${mTranslateContent.targetText.get()}")
+                Thread.sleep(2000)
+            }
+        }.start()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        mTranslateContent.sourceText.removeOnPropertyChangedCallback(translateCallback)
+        mTranslateContent.target.removeOnPropertyChangedCallback(translateCallback)
+    }
+
+    fun doTranslate() {
+        if (mTranslateContent.source.get().equals(Language.SOURCE_KOREAN.language) || mTranslateContent.target.get().equals(Language.TARGET_KOREAN.language)) {
+            translateCall(
+                mTranslateContent.source.get()!!,
+                mTranslateContent.target.get()!!,
+                mTranslateContent.sourceText.get()!!
+            )
         } else {
-            middelTranslateCall(getLanguageCode(source), getLanguageCode(target), content)
+            middelTranslateCall(
+                mTranslateContent.source.get()!!,
+                mTranslateContent.target.get()!!,
+                mTranslateContent.sourceText.get()!!
+            )
         }
     }
 
@@ -24,7 +62,7 @@ class TranslateViewModel : BaseViewModel() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ translateResult ->
-                    mTranslateResultLiveData.value = translateResult
+                    mTranslateContent.targetText.set(translateResult)
                 }, {})
         )
     }
@@ -40,13 +78,17 @@ class TranslateViewModel : BaseViewModel() {
         )
     }
 
-    private fun getLanguageCode(selectedLanguage: String): String {
-        when (selectedLanguage) {
-            "한국어" -> return "ko"
-            "영어" -> return "en"
-            "일본어" -> return "ja"
-            "중국어" -> return "zh-CN"
-            else -> return "ko"
+    fun updateSpinnerView(language: Language) {
+        when (language.type) {
+            SOURCE -> {
+                mTranslateContent.sourceText.set("")
+                mTranslateContent.targetText.set("")
+                mTranslateContent.source.set(language.language)
+            }
+            TARGET -> {
+                mTranslateContent.targetText.set("")
+                mTranslateContent.target.set(language.language)
+            }
         }
     }
 }

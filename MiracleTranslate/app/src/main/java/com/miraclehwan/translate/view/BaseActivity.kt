@@ -24,12 +24,10 @@ open abstract class BaseActivity<VDB : ViewDataBinding, VM : ViewModel>() : AppC
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding
-
         initView()
-        initLiveData()
+        setViewModelToDataBinding()
     }
 
     abstract fun initView()
-    abstract fun initLiveData()
+    abstract fun setViewModelToDataBinding()
 }
