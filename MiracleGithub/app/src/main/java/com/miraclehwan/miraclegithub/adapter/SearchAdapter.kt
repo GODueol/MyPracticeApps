@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.miraclehwan.miraclegithub.databinding.ItemRespositoryBinding
 import com.miraclehwan.miraclegithub.network.response.Item
+import com.miraclehwan.miraclegithub.util.Log
 
 class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchResultViewHolder>() {
 
@@ -35,7 +36,7 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchResultViewHolder>
         } else {
             val originPos = itemList.size
             itemList.addAll(items)
-            notifyItemRangeInserted(originPos, itemList.size - 1)
+            notifyItemRangeInserted(originPos, itemList.size)
         }
     }
 

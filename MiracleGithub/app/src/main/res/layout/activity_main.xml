@@ -19,6 +19,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@={vm.input}"
+                app:onHideKeyboard="@{vm.isLoading}"
                 android:hint="검색어를 입력해주세요."
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"

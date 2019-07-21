@@ -1,8 +1,11 @@
 package com.miraclehwan.miraclegithub
 
+import android.content.Context
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
@@ -23,7 +26,6 @@ object Extensions {
             return;
         }
         if (view.text.toString() != text.toString()) {
-            Log.e(text.toString())
             view.text = text
         }
     }
@@ -31,7 +33,6 @@ object Extensions {
     @JvmStatic
     @InverseBindingAdapter(attribute = "android:text", event = "textEvent")
     fun getText(view: TextView): String {
-        Log.e(view.text.toString())
         return view.text.toString()
     }
 
@@ -43,7 +44,6 @@ object Extensions {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (listener != null) {
-                    Log.e(s.toString())
                     listener.onChange()
                 }
             }
@@ -74,10 +74,7 @@ object Extensions {
                     }
                     val layoutManager = view.layoutManager
                     val totalItemCount = layoutManager?.itemCount ?: 0
-                    val lastVisibleItem =
-                        layoutManager?.let { (layoutManager as LinearLayoutManager).findLastVisibleItemPosition() + 1 } ?: 0
-
-                    Log.e("size log | $totalItemCount / $lastVisibleItem")
+                    val lastVisibleItem = layoutManager?.let { (layoutManager as LinearLayoutManager).findLastVisibleItemPosition() + 1 } ?: 0
 
                     if (totalItemCount != 0 && totalItemCount!! <= lastVisibleItem!!){
                         onScrolled.onScrolled(totalItemCount)
@@ -91,6 +88,15 @@ object Extensions {
         }
         if (newValue != null) {
             view.addOnScrollListener(newValue)
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("onHideKeyboard")
+    fun hideKeyboard(view : EditText, isHide : Boolean){
+        if (isHide){
+            val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager;
+            imm.hideSoftInputFromWindow(view.windowToken, 0);
         }
     }
 

@@ -1,5 +1,9 @@
 package com.miraclehwan.miraclegithub.viewmodel
 
+import android.content.Context
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.databinding.Observable
 import androidx.databinding.ObservableField
 import com.miraclehwan.miraclegithub.model.SearchRepository
