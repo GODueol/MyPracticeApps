@@ -15,7 +15,7 @@ class SearchRepository {
         return Api.RetrofitClient.getRepository(q, SORT, ORDER_BY, page)
             .subscribeOn(Schedulers.io())
             .map { res ->
-                totalItemCount = res.totalCount
+                totalItemCount = res.totalCount!!
                 res.items
             }
     }

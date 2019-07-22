@@ -1,12 +1,14 @@
 package com.miraclehwan.miraclegithub
 
 import android.content.Context
+import android.content.Intent
 import android.text.Editable
-import android.text.TextUtils
 import android.text.TextWatcher
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
@@ -16,13 +18,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.miraclehwan.miraclegithub.adapter.SearchAdapter
 import com.miraclehwan.miraclegithub.network.response.Item
 import com.miraclehwan.miraclegithub.util.Log
+import com.miraclehwan.miraclegithub.view.RepositoryInfoActivity
 
 object Extensions {
 
     @JvmStatic
     @BindingAdapter("android:text")
     fun setText(view: TextView, text: CharSequence?) {
-        if(text == null){
+        if (text == null) {
             return;
         }
         if (view.text.toString() != text.toString()) {
@@ -62,7 +65,7 @@ object Extensions {
 
     @JvmStatic
     @BindingAdapter("onScrolled")
-    fun onScrolled(view:RecyclerView, onScrolled: OnScrolled){
+    fun onScrolled(view: RecyclerView, onScrolled: OnScrolled) {
         val newValue: RecyclerView.OnScrollListener?
         if (onScrolled == null) {
             newValue = null
@@ -74,9 +77,11 @@ object Extensions {
                     }
                     val layoutManager = view.layoutManager
                     val totalItemCount = layoutManager?.itemCount ?: 0
-                    val lastVisibleItem = layoutManager?.let { (layoutManager as LinearLayoutManager).findLastVisibleItemPosition() + 1 } ?: 0
+                    val lastVisibleItem =
+                        layoutManager?.let { (layoutManager as LinearLayoutManager).findLastVisibleItemPosition() + 1 }
+                            ?: 0
 
-                    if (totalItemCount != 0 && totalItemCount!! <= lastVisibleItem!!){
+                    if (totalItemCount != 0 && totalItemCount!! <= lastVisibleItem!!) {
                         onScrolled.onScrolled(totalItemCount)
                     }
                 }
@@ -92,15 +97,25 @@ object Extensions {
     }
 
     @JvmStatic
+    @BindingAdapter("android:onClick")
+    fun itemClick(view: View, item: Item) {
+        view.setOnClickListener{
+            Intent(view.context, RepositoryInfoActivity::class.java).apply {
+            putExtra("item", item)
+            view.context.startActivity(this)
+        } }
+    }
+
+    @JvmStatic
     @BindingAdapter("onHideKeyboard")
-    fun hideKeyboard(view : EditText, isHide : Boolean){
-        if (isHide){
+    fun hideKeyboard(view: EditText, isHide: Boolean) {
+        if (isHide) {
             val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager;
             imm.hideSoftInputFromWindow(view.windowToken, 0);
         }
     }
 
     interface OnScrolled {
-        fun onScrolled(totalItemCount:Int)
+        fun onScrolled(totalItemCount: Int)
     }
 }
