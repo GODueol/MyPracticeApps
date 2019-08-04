@@ -23,7 +23,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     }
 
     override fun setViewModelToDataBinding() {
-        mBinding
+        mBinding.vm = mViewModel
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,8 +61,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         val hasPermission = (checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED)
         if (hasPermission) {
             SpeechRecognizerManager.getInstance().initializeLibrary(this)
-            //todo::startRecording
-            mViewModel.startRecording()
         } else {
             requestPermissions(listOf(permission).toTypedArray(), PERMISSION_REQUEST_CODE)
         }
