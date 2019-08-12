@@ -4,9 +4,13 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
-open class BaseViewModel : ViewModel() {
+abstract class BaseViewModel : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
+
+    init {
+        inject()
+    }
 
     fun addDisposable(disposable: Disposable) {
         compositeDisposable.add(disposable)
@@ -16,4 +20,6 @@ open class BaseViewModel : ViewModel() {
         compositeDisposable.clear()
         super.onCleared()
     }
+
+    abstract fun inject()
 }

@@ -1,6 +1,7 @@
 package com.miraclehwan.miraclegithub.model
 
 import com.miraclehwan.miraclegithub.network.Api
+import com.miraclehwan.miraclegithub.network.RetrofitClient
 import com.miraclehwan.miraclegithub.network.response.Item
 import com.miraclehwan.miraclerx.Constants.ORDER_BY
 import com.miraclehwan.miraclerx.Constants.SORT
@@ -12,7 +13,7 @@ class SearchRepository {
     var totalItemCount = 0
 
     fun getRepository(q: String, page: Int): Single<List<Item>> {
-        return Api.RetrofitClient.getRepository(q, SORT, ORDER_BY, page)
+        return RetrofitClient().getApi.getRepository(q, SORT, ORDER_BY, page)
             .subscribeOn(Schedulers.io())
             .map { res ->
                 totalItemCount = res.totalCount!!

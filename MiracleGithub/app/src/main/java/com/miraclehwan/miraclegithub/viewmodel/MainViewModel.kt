@@ -1,11 +1,8 @@
 package com.miraclehwan.miraclegithub.viewmodel
 
-import android.content.Context
-import android.view.View
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import androidx.databinding.Observable
 import androidx.databinding.ObservableField
+import com.miraclehwan.miraclegithub.di.DaggerMainComponent
 import com.miraclehwan.miraclegithub.model.SearchRepository
 import com.miraclehwan.miraclegithub.network.response.Item
 import com.miraclehwan.miraclegithub.util.Log
@@ -13,14 +10,18 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 
 class MainViewModel : BaseViewModel() {
+
+    @Inject
+    lateinit var searchRepository: SearchRepository
+
     val input = ObservableField<String>()
     val items = ObservableField<List<Item>>()
     var isLoading = ObservableField<Boolean>(false)
 
-    val searchRepository = SearchRepository()
     var currentPage = 1
     val pageSubject = PublishSubject.create<Int>()
 
@@ -33,6 +34,11 @@ class MainViewModel : BaseViewModel() {
             currentPage = 1
             pageSubject.onNext(currentPage)
         }
+    }
+
+    override fun inject() {
+        DaggerMainComponent.create()
+            .inject(this)
     }
 
     init {
