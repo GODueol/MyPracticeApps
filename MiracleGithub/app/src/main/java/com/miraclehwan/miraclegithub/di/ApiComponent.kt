@@ -1,12 +1,13 @@
 package com.miraclehwan.miraclegithub.di
 
-import com.miraclehwan.miraclegithub.network.Api
-import com.miraclehwan.miraclegithub.network.RetrofitClient
+import android.app.Application
+import com.miraclehwan.miraclegithub.model.SearchRepository
 import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [(ApiModule::class)])
 interface ApiComponent {
-    fun inject(retrofitClient: RetrofitClient)
+    fun inject(application: Application)
+    fun inject(searchRepository: SearchRepository)
 }
